@@ -1,24 +1,18 @@
-from VatCalc import Calculator
+VAT_RATE = 1.20
 
-# initialise instance and run calc
-def calc_vat(receipt_value):
-    myReceipt = Calculator(receipt_value)
-    return myReceipt.calc(receipt_value)
-
-# captures user input of receipt and converts to float. Handles input error
-def get_vat():
+def calc():
     try:
-        receipt_in = input("Enter receipt value: ")
-        receipt_value = float(receipt_in)
-        return calc_vat(receipt_value)
+        receipt_value = input("Enter receipt value: ")
+        receipt_value = float(receipt_value)
+        net_value = float(receipt_value) / VAT_RATE
+        refund_vat = round(float(receipt_value) - net_value, 2)
+        print(refund_vat)
+        if input("Run again? ") == "y":
+            calc()
+        else:
+            print("Bye!")
     except ValueError:
-        return "You can only enter numbers!"
+        print("You can only enter numbers!")
+        calc()
 
-# trigger for loop 
-def keep_going():
-    return input("Run again? ") == "y"
-
-# first pass
-print(get_vat())    
-while keep_going():
-    print(get_vat())
+calc()
